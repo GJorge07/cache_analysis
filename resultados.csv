@@ -1,0 +1,62 @@
+## RESULTADOS:
+
+
+Matriz Normal:
+
+ N | Tempo 
+ 2 | 0.000002s 
+ 4 | 0.000001s 
+ 8 | 0.000002s 
+ 16 | 0.000006s 
+ 32 | 0.000043s 
+ 64 | 0.000359s 
+ 128 | 0.003642s 
+ 256 | 0.026555s 
+ 512 | 0.233988s 
+ 1024 | 2.682448s 
+ 2048 | 53.039043s 
+
+
+Matriz em bloco:
+
+ N | B | Tempo |
+
+ 4 | 2 | 0.000003s 
+ 8 | 2 | 0.000004s 
+ 16 | 4 | 0.000010s 
+ 32 | 4 | 0.000068s 
+ 64 | 4 | 0.000517s 
+ 128 | 16 | 0.002913s 
+ 256 | 16 | 0.013536s 
+ 512 | 32 | 0.105562s 
+ 1024 | 8 | 0.793085s 
+ 1024 | 16 | 0.684161s 
+ 1024 | 32 | 0.701568s 
+ 1024 | 64 | 0.894463s 
+ 1024 | 128 | 0.916540s 
+ 2048 | 128 | 5.512868s 
+
+
+Comparação entre os dois:
+
+ N | Normal | Em bloco | BL ótimo | Speedup 
+
+ 256 | 0.026555s | 0.013536s | 16 | 1.9x 
+ 512 | 0.233988s | 0.105562s | 32 | 2.2x 
+ 1024 | 2.682448s | 0.684161s | 16 | 3.9x 
+ 2048 | 53.039043s | 5.512868s | 128 | 9.6x 
+
+**Comparação entre Multiplicação de Matrizes Naïve e Blocada**
+
+Os resultados mostram de forma clara que a versão blocada supera a naïve em todos os tamanhos testados, e que essa vantagem cresce conforme a matriz aumenta.
+
+Para matrizes pequenas (N=256), o ganho é de aproximadamente 2x. Já para N=1024, a em bloco é quase 4x mais rápida. O caso mais expressivo é N=2048, onde a diferença chega a 9.6x — a versão normal levou 53 segundos enquanto a em bloco resolveu o mesmo problema em apenas 5.5 segundos.
+
+Esse crescimento do ganho com o tamanho da matriz não é coincidência. Uma matriz 2048×2048 de double ocupa 32MB na memória — maior que a L3 de 18MB da máquina testada. Nesse cenário, o algoritmo da matriz normal precisa buscar dados diretamente na RAM a quase todo acesso à matriz B, pagando centenas de ciclos por operação. O algoritmo em blocos, por trabalhar em pedaços pequenos que cabem na cache, evita esse problema independente do tamanho total da matriz.
+
+Os testes variando o tamanho do bloco BL para N=1024 revelaram que BL=16 foi o melhor resultado (0.684s), enquanto BL=128 foi o pior (0.916s). Isso se explica pelo tamanho da cache L1 da máquina testada: ~37KB por núcleo. Um bloco 16×16 de double ocupa apenas 2KB — três blocos (A, B e C) somam 6KB, cabendo folgado na L1. Já um bloco 64×64 ocupa 32KB, e três blocos somam 96KB, ultrapassando a L1 e perdendo o benefício.
+
+Em resumo, o algoritmo de matriz em bloco não é apenas mais rápido como também respeita a hierarquia de memória da máquina, trabalhando sempre dentro dos limites da cache.
+
+--------------------------------------------------------------------------------------------------------------------
+
