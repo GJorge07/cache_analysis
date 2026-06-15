@@ -2,6 +2,11 @@
 
 Trabalho prático da disciplina de Algoritmos e Estruturas de Dados 3
 
+## Como executar
+- Gere o executável com: gcc matriz.c -o matriz
+- Rode com ./matriz N, sendo N um número inteiro que representa o tamanho das matrizes
+- Para o Bloco, faça o mesmo, mas também passe o tamanho B do bloco assim: ./bloco N B
+
 ## Objetivo
 
 Comparar o desempenho da multiplicação de matrizes na versão normal (loop triplo simples) contra a versão em bloco,  analisando o impacto da hierarquia de cache no tempo de execução.
@@ -20,3 +25,5 @@ Comparar o desempenho da multiplicação de matrizes na versão normal (loop tri
 - L3: 18 MiB
 - SO: Linux Ubuntu
 - Compilador: GCC
+
+Obs: máquina diferente da utilizada nos testes do relatório

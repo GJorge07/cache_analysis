@@ -7,7 +7,7 @@
 
 int main (int argc, char *argv[] ) {        
 
-     int N = atoi(argv[1]); /*converte o texto "512" para o número 512*/
+     int N = atoi(argv[1]); /*converte o texto string para inteiro*/
      int BL = atoi(argv[2]); /*É o tamanho do bloco da matriz*/
 
      double *A = malloc(N * N * sizeof(double));
