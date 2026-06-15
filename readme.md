@@ -1,6 +1,6 @@
 # Análise de Desempenho de Cache — Multiplicação de Matrizes
 
-Trabalho prático da disciplina de Algoritmos e Estruturas de Dados 3
+Trabalho prático da disciplina de Arquitetura de Computadores
 
 ## Como executar
 - Gere o executável com: gcc matriz.c -o matriz
